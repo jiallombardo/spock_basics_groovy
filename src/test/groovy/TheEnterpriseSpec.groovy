@@ -67,7 +67,7 @@ class TheEnterpriseSpec extends Specification
         then: 'He gets an exception with a special greeting'
         AssertionError greeting = thrown()
         println greeting.message
-        greeting.getMessage().contains("Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests...")
+        greeting.getMessage().startsWith("Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests...")
     }
 
     @IgnoreIf({ System.getProperty(THE_ENTERPRISE_IS_DOCKED).equals("false") })
