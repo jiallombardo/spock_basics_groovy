@@ -12,10 +12,10 @@ class Officer {
     }
 
     String getName() {
-        return name
+        name
     }
 
     String getTitle() {
-        return title
+        title
     }
 }

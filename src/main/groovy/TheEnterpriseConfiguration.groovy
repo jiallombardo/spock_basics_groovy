@@ -17,17 +17,16 @@ class TheEnterpriseConfiguration
     @PackageScope
     @Bean
     TheEnterprise theShip() {
-        InvocationHandler handler = new InvocationHandler() {
+        def handler = new InvocationHandler() {
             @Override
             Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return null
+                null
             }
         }
-        ClearanceProvider proxyProvider = (ClearanceProvider) Proxy.newProxyInstance(ClearanceProvider.class.getClassLoader(),
+        def proxyProvider = Proxy.newProxyInstance(ClearanceProvider.class.getClassLoader(),
                 [ClearanceProvider] as Class[],
                 handler)
-        TheEnterprise ship = new TheEnterprise("trainee", proxyProvider)
 
-        return ship
+        new TheEnterprise("trainee", proxyProvider)
     }
 }

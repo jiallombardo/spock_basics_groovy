@@ -14,21 +14,21 @@ class TheEnterpriseISpec extends Specification {
     @Autowired
     private TheEnterprise testShip
 
-    private ClearanceProvider testProvider = Mock()
+    private def testProvider = Mock(ClearanceProvider)
 
-    void setup() {
+    def setup() {
         testShip.clearanceProvider = testProvider //use reflection to insert new field value
     }
 
     @Unroll
-    void '#title #name has proper access to the Enterprise'() {
+    def '#title #name has proper access to the Enterprise'() {
         setup: 'a parameterized Officer'
-            Officer officer = new Officer(name, title)
+            def officer = new Officer(name, title)
             (officer.getName().equals("Spock") ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
 
 
         when: 'get clearance for this officer'
-            Clearance result = testShip.clearanceToSystems(officer)
+            def result = testShip.clearanceToSystems(officer)
 
         then: 'the clearance level is correct'
             result == expectedResult
@@ -43,7 +43,7 @@ class TheEnterpriseISpec extends Specification {
             "Nyota"  | "Lieutenant"    || null
     }
 
-    Clearance testClearanceBehavior(String officerTitle) {
+    def testClearanceBehavior(String officerTitle) {
         switch (officerTitle) {
             case "Captain":
                 return UNRESTRICTED
@@ -58,6 +58,6 @@ class TheEnterpriseISpec extends Specification {
                 return UNAUTHORIZED
         }
 
-        return null
+        null
     }
 }

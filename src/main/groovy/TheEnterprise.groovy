@@ -19,19 +19,20 @@ class TheEnterprise {
             return Clearance.UNRESTRICTED
         }
         assert !OFFICER_MCCOY.equals(officer.getName()): "Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests..."
-        return clearanceProvider.getClearance(officer.getTitle())
+
+        clearanceProvider.getClearance(officer.getTitle())
     }
 
     List<Officer> trainOfficers(int numberOfOfficers) {
         if (numberOfOfficers < 0)
             return Collections.emptyList()
-        List<Officer> trainees = new LinkedList<Officer>()
+        def trainees = new LinkedList<Officer>()
 
         for (int i = 0; i < numberOfOfficers; i++) {
-            Officer o = new Officer(newOfficerTitle + " " + i, newOfficerTitle)
-            trainees.add(o)
+            def officer = new Officer(newOfficerTitle + " " + i, newOfficerTitle)
+            trainees.add(officer)
         }
 
-        return trainees
+        trainees
     }
 }

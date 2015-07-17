@@ -22,27 +22,27 @@ class TheEnterpriseSpec extends Specification
     private Officer officerMccoy
 
     private TheEnterprise ourShip
-    private ClearanceProvider testProvider = Mock()
+    private def testProvider = Mock(ClearanceProvider)
 
-    void setupSpec() {
+    def setupSpec() {
         officerKirk = new Officer("Kirk", "Captain")
         officerSpock = new Officer("Spock", "First Officer")
         officerMccoy = new Officer("McCoy", "Lieutenant Commander")
     }
 
-    void setup() {
+    def setup() {
         ourShip = new TheEnterprise(TEST_TRAINEE_TITLE, testProvider)
     }
 
     @Unroll
-    void '#title #name has proper access to the Enterprise'() {
+    def '#title #name has proper access to the Enterprise'() {
         setup: 'a parameterized Officer'
-        Officer officer = new Officer(name, title)
+        def officer = new Officer(name, title)
         (officer.getName().equals("Spock") ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
 
 
         when: 'get clearance for this officer'
-        Clearance result = ourShip.clearanceToSystems(officer)
+        def result = ourShip.clearanceToSystems(officer)
 
         then: 'the clearance level is correct'
         result == expectedResult
@@ -57,26 +57,25 @@ class TheEnterpriseSpec extends Specification
         "Nyota"                | "Lieutenant"            || null
     }
 
-    void 'Officer McCoy has a special greeting'() {
+    def 'Officer McCoy has a special greeting'() {
         given: 'officer McCoy'
-        Officer mccoy = officerMccoy
+        def mccoy = officerMccoy
 
         when: 'McCoy requests clearance'
         ourShip.clearanceToSystems(mccoy)
 
         then: 'He gets an exception with a special greeting'
         AssertionError greeting = thrown()
-        println greeting.message
         greeting.getMessage().startsWith("Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests...")
     }
 
     @IgnoreIf({ System.getProperty(THE_ENTERPRISE_IS_DOCKED).equals("false") })
-    void 'officers are trained at the enterprise'() {
+    def 'officers are trained at the enterprise'() {
         given: 'we have a number of men to train'
         int numberOfMenToTrain = 3
 
         when: 'we train these men'
-        List<Officer> officers = ourShip.trainOfficers(numberOfMenToTrain)
+        def officers = ourShip.trainOfficers(numberOfMenToTrain)
 
         then: 'we receive proper officers with proper titles and names'
         officers.size() == numberOfMenToTrain
@@ -85,19 +84,19 @@ class TheEnterpriseSpec extends Specification
         }
 
         when: 'we have no men to train'
-        List<Officer> noOfficers = ourShip.trainOfficers(0)
+        def noOfficers = ourShip.trainOfficers(0)
 
         then: 'we receive no officers'
         noOfficers.isEmpty()
     }
 
-    private void verifyNewOfficer(int i, List<Officer> officers) {
-        Officer toCheck = officers.get(i)
+    private def verifyNewOfficer(int i, List<Officer> officers) {
+        def toCheck = officers.get(i)
         assert toCheck.getName().equals(TEST_TRAINEE_TITLE + " " + i)
         assert toCheck.getTitle().equals(TEST_TRAINEE_TITLE)
     }
 
-    Clearance testClearanceBehavior(String officerTitle) {
+    def testClearanceBehavior(String officerTitle) {
         switch (officerTitle) {
             case "Captain":
                 return UNRESTRICTED
@@ -112,6 +111,6 @@ class TheEnterpriseSpec extends Specification
                 return UNAUTHORIZED
         }
 
-        return null
+        null
     }
 }
