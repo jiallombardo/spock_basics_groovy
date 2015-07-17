@@ -15,12 +15,12 @@ class TheEnterprise {
     }
 
     Clearance clearanceToSystems(Officer officer) {
-        if (OUR_HERO_SPOCK.equals(officer.getName())) {
+        if (OUR_HERO_SPOCK.equals(officer.name)) {
             return Clearance.UNRESTRICTED
         }
-        assert !OFFICER_MCCOY.equals(officer.getName()): "Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests..."
+        assert !OFFICER_MCCOY.equals(officer.name): "Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests..."
 
-        clearanceProvider.getClearance(officer.getTitle())
+        clearanceProvider.getClearance(officer.title)
     }
 
     List<Officer> trainOfficers(int numberOfOfficers) {

@@ -5,8 +5,7 @@ import spock.lang.Unroll
 
 import static Clearance.*
 
-class TheEnterpriseSpec extends Specification
-{
+class TheEnterpriseSpec extends Specification {
 
     private static final String TEST_TRAINEE_TITLE = "Test Trainee"
     private static final String THE_ENTERPRISE_IS_DOCKED = "enterprise.docked"
@@ -38,8 +37,7 @@ class TheEnterpriseSpec extends Specification
     def '#title #name has proper access to the Enterprise'() {
         setup: 'a parameterized Officer'
         def officer = new Officer(name, title)
-        (officer.getName().equals("Spock") ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
-
+        (officer.name.equals("Spock") ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
 
         when: 'get clearance for this officer'
         def result = ourShip.clearanceToSystems(officer)
@@ -48,13 +46,13 @@ class TheEnterpriseSpec extends Specification
         result == expectedResult
 
         where:
-        name                   | title                   || expectedResult
-        officerKirk.getName()  | officerKirk.getTitle()  || UNRESTRICTED
-        officerSpock.getName() | "Intruder"              || UNRESTRICTED
-        officerSpock.getName() | officerSpock.getTitle() || UNRESTRICTED
-        officerKirk.getName()  | "Intruder"              || UNAUTHORIZED
-        "Scotty"               | "First Officer"         || LIMITED
-        "Nyota"                | "Lieutenant"            || null
+        name              | title              || expectedResult
+        officerKirk.name  | officerKirk.title  || UNRESTRICTED
+        officerSpock.name | "Intruder"         || UNRESTRICTED
+        officerSpock.name | officerSpock.title || UNRESTRICTED
+        officerKirk.name  | "Intruder"         || UNAUTHORIZED
+        "Scotty"          | "First Officer"    || LIMITED
+        "Nyota"           | "Lieutenant"       || null
     }
 
     def 'Officer McCoy has a special greeting'() {
@@ -66,7 +64,7 @@ class TheEnterpriseSpec extends Specification
 
         then: 'He gets an exception with a special greeting'
         AssertionError greeting = thrown()
-        greeting.getMessage().startsWith("Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests...")
+        greeting.message.startsWith("Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests...")
     }
 
     @IgnoreIf({ System.getProperty(THE_ENTERPRISE_IS_DOCKED).equals("false") })
@@ -79,7 +77,8 @@ class TheEnterpriseSpec extends Specification
 
         then: 'we receive proper officers with proper titles and names'
         officers.size() == numberOfMenToTrain
-        for (int i = 0; i < numberOfMenToTrain; i++) {
+        for (int i = 0; i < numberOfMenToTrain; i++)
+        {
             verifyNewOfficer(i, officers)
         }
 
@@ -92,12 +91,13 @@ class TheEnterpriseSpec extends Specification
 
     private def verifyNewOfficer(int i, List<Officer> officers) {
         def toCheck = officers.get(i)
-        assert toCheck.getName().equals(TEST_TRAINEE_TITLE + " " + i)
-        assert toCheck.getTitle().equals(TEST_TRAINEE_TITLE)
+        assert toCheck.name.equals(TEST_TRAINEE_TITLE + " " + i)
+        assert toCheck.title.equals(TEST_TRAINEE_TITLE)
     }
 
     def testClearanceBehavior(String officerTitle) {
-        switch (officerTitle) {
+        switch (officerTitle)
+        {
             case "Captain":
                 return UNRESTRICTED
 

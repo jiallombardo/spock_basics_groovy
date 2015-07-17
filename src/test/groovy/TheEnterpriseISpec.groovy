@@ -24,7 +24,7 @@ class TheEnterpriseISpec extends Specification {
     def '#title #name has proper access to the Enterprise'() {
         setup: 'a parameterized Officer'
             def officer = new Officer(name, title)
-            (officer.getName().equals("Spock") ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
+            (officer.name.equals("Spock") ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
 
 
         when: 'get clearance for this officer'

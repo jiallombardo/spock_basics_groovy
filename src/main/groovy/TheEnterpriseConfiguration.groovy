@@ -23,7 +23,7 @@ class TheEnterpriseConfiguration
                 null
             }
         }
-        def proxyProvider = Proxy.newProxyInstance(ClearanceProvider.class.getClassLoader(),
+        def proxyProvider = Proxy.newProxyInstance(ClearanceProvider.classLoader,
                 [ClearanceProvider] as Class[],
                 handler)
 
