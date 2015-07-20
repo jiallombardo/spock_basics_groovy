@@ -10,7 +10,7 @@ class TheEnterpriseSpec extends Specification {
     private static final String TEST_TRAINEE_TITLE = "Test Trainee"
     private static final String THE_ENTERPRISE_IS_DOCKED = "enterprise.docked"
     static {
-        System.setProperty(THE_ENTERPRISE_IS_DOCKED, "false")
+        System.setProperty(THE_ENTERPRISE_IS_DOCKED, "true")
     }
 
     @Shared
@@ -77,10 +77,7 @@ class TheEnterpriseSpec extends Specification {
 
         then: 'we receive proper officers with proper titles and names'
         officers.size() == numberOfMenToTrain
-        for (int i = 0; i < numberOfMenToTrain; i++)
-        {
-            verifyNewOfficer(i, officers)
-        }
+        officers.eachWithIndex { entry, index -> verifyNewOfficer(index, entry)}
 
         when: 'we have no men to train'
         def noOfficers = ourShip.trainOfficers(0)
@@ -89,10 +86,9 @@ class TheEnterpriseSpec extends Specification {
         noOfficers.isEmpty()
     }
 
-    private def verifyNewOfficer(int i, List<Officer> officers) {
-        def toCheck = officers.get(i)
-        assert toCheck.name.equals(TEST_TRAINEE_TITLE + " " + i)
-        assert toCheck.title.equals(TEST_TRAINEE_TITLE)
+    private def verifyNewOfficer(int i, Officer officer) {
+        assert officer.name.equals(TEST_TRAINEE_TITLE + " " + i)
+        assert officer.title.equals(TEST_TRAINEE_TITLE)
     }
 
     def testClearanceBehavior(String officerTitle) {

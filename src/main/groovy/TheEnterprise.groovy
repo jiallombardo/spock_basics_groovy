@@ -25,12 +25,11 @@ class TheEnterprise {
 
     List<Officer> trainOfficers(int numberOfOfficers) {
         if (numberOfOfficers < 0)
-            return Collections.emptyList()
-        def trainees = new LinkedList<Officer>()
+            return []
+        def trainees = []
 
-        for (int i = 0; i < numberOfOfficers; i++) {
-            def officer = new Officer(newOfficerTitle + " " + i, newOfficerTitle)
-            trainees.add(officer)
+        for (i in (0..<numberOfOfficers)) {
+            trainees << new Officer(newOfficerTitle + " " + i, newOfficerTitle)
         }
 
         trainees
