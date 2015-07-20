@@ -7,10 +7,10 @@ import static Clearance.*
 
 class TheEnterpriseSpec extends Specification {
 
-    private static final String TEST_TRAINEE_TITLE = "Test Trainee"
-    private static final String THE_ENTERPRISE_IS_DOCKED = "enterprise.docked"
+    private static final String TEST_TRAINEE_TITLE = 'Test Trainee'
+    private static final String THE_ENTERPRISE_IS_DOCKED = 'enterprise.docked'
     static {
-        System.setProperty(THE_ENTERPRISE_IS_DOCKED, "true")
+        System.setProperty(THE_ENTERPRISE_IS_DOCKED, 'true')
     }
 
     @Shared
@@ -24,9 +24,9 @@ class TheEnterpriseSpec extends Specification {
     private def testProvider = Mock(ClearanceProvider)
 
     def setupSpec() {
-        officerKirk = new Officer("Kirk", "Captain")
-        officerSpock = new Officer("Spock", "First Officer")
-        officerMccoy = new Officer("McCoy", "Lieutenant Commander")
+        officerKirk = new Officer('Kirk', 'Captain')
+        officerSpock = new Officer('Spock', 'First Officer')
+        officerMccoy = new Officer('McCoy', 'Lieutenant Commander')
     }
 
     def setup() {
@@ -37,7 +37,7 @@ class TheEnterpriseSpec extends Specification {
     def '#title #name has proper access to the Enterprise'() {
         setup: 'a parameterized Officer'
         def officer = new Officer(name, title)
-        (officer.name.equals("Spock") ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
+        (officer.name == 'Spock' ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
 
         when: 'get clearance for this officer'
         def result = ourShip.clearanceToSystems(officer)
@@ -48,11 +48,11 @@ class TheEnterpriseSpec extends Specification {
         where:
         name              | title              || expectedResult
         officerKirk.name  | officerKirk.title  || UNRESTRICTED
-        officerSpock.name | "Intruder"         || UNRESTRICTED
+        officerSpock.name | 'Intruder'         || UNRESTRICTED
         officerSpock.name | officerSpock.title || UNRESTRICTED
-        officerKirk.name  | "Intruder"         || UNAUTHORIZED
-        "Scotty"          | "First Officer"    || LIMITED
-        "Nyota"           | "Lieutenant"       || null
+        officerKirk.name  | 'Intruder'         || UNAUTHORIZED
+        'Scotty'          | 'First Officer'    || LIMITED
+        'Nyota'           | 'Lieutenant'       || null
     }
 
     def 'Officer McCoy has a special greeting'() {
@@ -64,10 +64,13 @@ class TheEnterpriseSpec extends Specification {
 
         then: 'He gets an exception with a special greeting'
         AssertionError greeting = thrown()
-        greeting.message.startsWith("Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests...")
+        greeting.message.startsWith('''\
+Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing.
+Logic suggests...'''
+        )
     }
 
-    @IgnoreIf({ System.getProperty(THE_ENTERPRISE_IS_DOCKED).equals("false") })
+    @IgnoreIf({ System.getProperty(THE_ENTERPRISE_IS_DOCKED) == 'false' })
     def 'officers are trained at the enterprise'() {
         given: 'we have a number of men to train'
         int numberOfMenToTrain = 3
@@ -87,23 +90,23 @@ class TheEnterpriseSpec extends Specification {
     }
 
     private def verifyNewOfficer(int i, Officer officer) {
-        assert officer.name.equals(TEST_TRAINEE_TITLE + " " + i)
-        assert officer.title.equals(TEST_TRAINEE_TITLE)
+        assert officer.name == "$TEST_TRAINEE_TITLE $i".toString()
+        assert officer.title == TEST_TRAINEE_TITLE
     }
 
     def testClearanceBehavior(String officerTitle) {
         switch (officerTitle)
         {
-            case "Captain":
+            case 'Captain':
                 return UNRESTRICTED
 
-            case "First Officer":
+            case 'First Officer':
                 return LIMITED
 
-            case "LieutenantCommander":
+            case 'LieutenantCommander':
                 return LIMITED
 
-            case "Intruder":
+            case 'Intruder':
                 return UNAUTHORIZED
         }
 

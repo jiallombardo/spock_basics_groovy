@@ -13,6 +13,6 @@ class TheEnterpriseConfiguration
     @PackageScope
     @Bean
     TheEnterprise theShip() {
-        new TheEnterprise("trainee", [ getClearance : { title -> 'UNAUTHORIZED' as Clearance } ] as ClearanceProvider)
+        new TheEnterprise('trainee', [ getClearance : { title -> 'UNAUTHORIZED' as Clearance } ] as ClearanceProvider)
     }
 }

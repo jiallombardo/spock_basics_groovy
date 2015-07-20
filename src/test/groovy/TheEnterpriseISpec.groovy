@@ -24,8 +24,7 @@ class TheEnterpriseISpec extends Specification {
     def '#title #name has proper access to the Enterprise'() {
         setup: 'a parameterized Officer'
             def officer = new Officer(name, title)
-            (officer.name.equals("Spock") ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
-
+            (officer.name == 'Spock' ? 0 : 1) * testProvider.getClearance(title) >> testClearanceBehavior(title)
 
         when: 'get clearance for this officer'
             def result = testShip.clearanceToSystems(officer)
@@ -35,26 +34,26 @@ class TheEnterpriseISpec extends Specification {
 
         where:
             name     | title           || expectedResult
-            "Kirk"   | "Captain"       || UNRESTRICTED
-            "Spock"  | "Intruder"      || UNRESTRICTED
-            "Spock"  | "First Officer" || UNRESTRICTED
-            "Kirk"   | "Intruder"      || UNAUTHORIZED
-            "Scotty" | "First Officer" || LIMITED
-            "Nyota"  | "Lieutenant"    || null
+            'Kirk'   | 'Captain'       || UNRESTRICTED
+            'Spock'  | 'Intruder'      || UNRESTRICTED
+            'Spock'  | 'First Officer' || UNRESTRICTED
+            'Kirk'   | 'Intruder'      || UNAUTHORIZED
+            'Scotty' | 'First Officer' || LIMITED
+            'Nyota'  | 'Lieutenant'    || null
     }
 
     def testClearanceBehavior(String officerTitle) {
         switch (officerTitle) {
-            case "Captain":
+            case 'Captain':
                 return UNRESTRICTED
 
-            case "First Officer":
+            case 'First Officer':
                 return LIMITED
 
-            case "LieutenantCommander":
+            case 'LieutenantCommander':
                 return LIMITED
 
-            case "Intruder":
+            case 'Intruder':
                 return UNAUTHORIZED
         }
 

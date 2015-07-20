@@ -1,10 +1,12 @@
+import groovy.util.logging.Log
+
 /**
  * A great starship.
  */
 class TheEnterprise {
 
-    private static final String OUR_HERO_SPOCK = "Spock"
-    private static final String OFFICER_MCCOY = "McCoy"
+    private static final String OUR_HERO_SPOCK = 'Spock'
+    private static final String OFFICER_MCCOY = 'McCoy'
 
     private String newOfficerTitle
     private ClearanceProvider clearanceProvider
@@ -15,10 +17,14 @@ class TheEnterprise {
     }
 
     Clearance clearanceToSystems(Officer officer) {
-        if (OUR_HERO_SPOCK.equals(officer.name)) {
+        if (OUR_HERO_SPOCK == officer.name) {
             return Clearance.UNRESTRICTED
         }
-        assert !OFFICER_MCCOY.equals(officer.name): "Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing. Logic suggests..."
+        assert !OFFICER_MCCOY.equals(officer.name):
+'''\
+Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing.
+Logic suggests...
+'''
 
         clearanceProvider.getClearance(officer.title)
     }
@@ -29,7 +35,7 @@ class TheEnterprise {
         def trainees = []
 
         for (i in (0..<numberOfOfficers)) {
-            trainees << new Officer(newOfficerTitle + " " + i, newOfficerTitle)
+            trainees << new Officer("${ -> newOfficerTitle} $i", newOfficerTitle)
         }
 
         trainees
