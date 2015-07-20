@@ -1,8 +1,9 @@
-import groovy.util.logging.Log
+import groovy.util.logging.Slf4j
 
 /**
  * A great starship.
  */
+@Slf4j
 class TheEnterprise {
 
     private static final String OUR_HERO_SPOCK = 'Spock'
@@ -35,7 +36,9 @@ Logic suggests...
         def trainees = []
 
         for (i in (0..<numberOfOfficers)) {
-            trainees << new Officer("${ -> newOfficerTitle} $i", newOfficerTitle)
+            def officer = new Officer("${ -> newOfficerTitle} $i", newOfficerTitle)
+            trainees << officer
+            log.info("Adding trainee with title $officer.title and name $officer.name")
         }
 
         trainees
