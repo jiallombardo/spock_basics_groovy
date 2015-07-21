@@ -11,21 +11,12 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.converter.HttpMessageConverter
-import org.springframework.http.converter.StringHttpMessageConverter
-import org.springframework.web.servlet.config.annotation.EnableWebMvc
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
-
-import java.nio.charset.Charset
-
-import static org.springframework.http.MediaType.APPLICATION_JSON
 
 @Configuration
 @ComponentScan(basePackages = 'org.spock.example.controller')
-@EnableWebMvc
 @SpringBootApplication(exclude = [DataSourceAutoConfiguration, HibernateJpaAutoConfiguration,
     DataSourceTransactionManagerAutoConfiguration])
-class TheEnterpriseConfiguration extends WebMvcConfigurerAdapter
+class TheEnterpriseConfiguration
 {
 
     /**
@@ -36,13 +27,5 @@ class TheEnterpriseConfiguration extends WebMvcConfigurerAdapter
     @Bean
     TheEnterprise theShip() {
         new TheEnterprise('trainee', [ getClearance : { title -> 'UNAUTHORIZED' as Clearance } ] as ClearanceProvider)
-    }
-
-    @Override
-    void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter(
-                Charset.forName("UTF-8"));
-        stringConverter.setSupportedMediaTypes(Arrays.asList(APPLICATION_JSON));
-        converters.add(stringConverter);
     }
 }

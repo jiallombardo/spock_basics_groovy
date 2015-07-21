@@ -26,7 +26,7 @@ class TheEnterprise {
         if (OUR_HERO_SPOCK == officer.name) {
             return Clearance.UNRESTRICTED
         }
-        assert !OFFICER_MCCOY.equals(officer.name):
+        assert OFFICER_MCCOY != officer.name :
 '''\
 Really, Dr. McCoy. You must learn to govern your passions; they will be your undoing.
 Logic suggests...
