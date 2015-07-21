@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 
+import javax.annotation.Resource
+
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE
 import static org.springframework.web.bind.annotation.RequestMethod.POST
 
@@ -18,13 +20,19 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST
 @Controller
 @Slf4j
 class TheEnterpriseController {
+
     @Autowired
     private TheEnterprise theShip
 
+    @Resource(name = "defaultNumberOfOfficers")
+    private int defaultNumberOfOfficers
+
     @RequestMapping(value = 'officers', method = POST, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    String trainOfficers(@RequestParam("number") int numberOfOfficers) {
-        def officers = theShip.trainOfficers(numberOfOfficers)
+    String trainOfficers(@RequestParam(value = "number", required = false) Integer numberOfOfficers) {
+        def toTrain = numberOfOfficers?:defaultNumberOfOfficers
+
+        def officers = theShip.trainOfficers(toTrain)
 
         log.info("Requested $numberOfOfficers officers")
         return new JsonBuilder(officers).toPrettyString()

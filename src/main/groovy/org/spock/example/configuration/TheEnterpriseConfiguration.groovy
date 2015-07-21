@@ -28,4 +28,9 @@ class TheEnterpriseConfiguration
     TheEnterprise theShip() {
         new TheEnterprise('trainee', [ getClearance : { title -> 'UNAUTHORIZED' as Clearance } ] as ClearanceProvider)
     }
+
+    @Bean
+    Integer defaultNumberOfOfficers() {
+        1
+    }
 }
