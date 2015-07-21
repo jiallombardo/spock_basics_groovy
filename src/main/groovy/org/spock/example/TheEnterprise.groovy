@@ -1,4 +1,9 @@
+package org.spock.example
+
 import groovy.util.logging.Slf4j
+import org.spock.example.beans.Clearance
+import org.spock.example.provider.ClearanceProvider
+import org.spock.example.beans.Officer
 
 /**
  * A great starship.

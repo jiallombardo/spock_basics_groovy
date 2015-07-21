@@ -1,11 +1,15 @@
+package org.spock.example
+
+import org.spock.example.beans.Clearance
+import org.spock.example.configuration.TheEnterpriseConfiguration
+import org.spock.example.provider.ClearanceProvider
+import org.spock.example.beans.Officer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import static Clearance.*
 
 @ContextConfiguration(classes = TheEnterpriseConfiguration)
 @TestExecutionListeners(DependencyInjectionTestExecutionListener)
@@ -34,27 +38,27 @@ class TheEnterpriseISpec extends Specification {
 
         where:
             name     | title           || expectedResult
-            'Kirk'   | 'Captain'       || UNRESTRICTED
-            'Spock'  | 'Intruder'      || UNRESTRICTED
-            'Spock'  | 'First Officer' || UNRESTRICTED
-            'Kirk'   | 'Intruder'      || UNAUTHORIZED
-            'Scotty' | 'First Officer' || LIMITED
+            'Kirk'   | 'Captain'       || Clearance.UNRESTRICTED
+            'Spock'  | 'Intruder'      || Clearance.UNRESTRICTED
+            'Spock'  | 'First Officer' || Clearance.UNRESTRICTED
+            'Kirk'   | 'Intruder'      || Clearance.UNAUTHORIZED
+            'Scotty' | 'First Officer' || Clearance.LIMITED
             'Nyota'  | 'Lieutenant'    || null
     }
 
     def testClearanceBehavior(String officerTitle) {
         switch (officerTitle) {
             case 'Captain':
-                return UNRESTRICTED
+                return Clearance.UNRESTRICTED
 
             case 'First Officer':
-                return LIMITED
+                return Clearance.LIMITED
 
             case 'LieutenantCommander':
-                return LIMITED
+                return Clearance.LIMITED
 
             case 'Intruder':
-                return UNAUTHORIZED
+                return Clearance.UNAUTHORIZED
         }
 
         null

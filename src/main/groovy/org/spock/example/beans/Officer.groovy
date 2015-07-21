@@ -1,3 +1,5 @@
+package org.spock.example.beans
+
 import groovy.transform.Immutable
 
 /**

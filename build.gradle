@@ -9,11 +9,14 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework:spring-beans:4.1.6.RELEASE'
-    compile 'org.springframework:spring-context:4.1.6.RELEASE'
     compile 'org.codehaus.groovy:groovy-all:2.4.3'
     compile 'org.slf4j:slf4j-api:1.7.12'
     compile 'org.slf4j:slf4j-simple:1.7.12'
+    compile('org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+        exclude module: "hibernate-validator"
+    }
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
@@ -21,4 +24,5 @@ dependencies {
     testCompile 'org.objenesis:objenesis:2.1'
     testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
     testCompile 'org.springframework:spring-test:4.1.6.RELEASE'
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 }

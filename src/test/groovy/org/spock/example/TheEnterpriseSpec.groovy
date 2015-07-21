@@ -1,9 +1,12 @@
+package org.spock.example
+
+import org.spock.example.beans.Clearance
+import org.spock.example.provider.ClearanceProvider
+import org.spock.example.beans.Officer
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import static Clearance.*
 
 class TheEnterpriseSpec extends Specification {
 
@@ -47,11 +50,11 @@ class TheEnterpriseSpec extends Specification {
 
         where:
         name              | title              || expectedResult
-        officerKirk.name  | officerKirk.title  || UNRESTRICTED
-        officerSpock.name | 'Intruder'         || UNRESTRICTED
-        officerSpock.name | officerSpock.title || UNRESTRICTED
-        officerKirk.name  | 'Intruder'         || UNAUTHORIZED
-        'Scotty'          | 'First Officer'    || LIMITED
+        officerKirk.name  | officerKirk.title  || Clearance.UNRESTRICTED
+        officerSpock.name | 'Intruder'         || Clearance.UNRESTRICTED
+        officerSpock.name | officerSpock.title || Clearance.UNRESTRICTED
+        officerKirk.name  | 'Intruder'         || Clearance.UNAUTHORIZED
+        'Scotty'          | 'First Officer'    || Clearance.LIMITED
         'Nyota'           | 'Lieutenant'       || null
     }
 
@@ -98,16 +101,16 @@ Logic suggests...'''
         switch (officerTitle)
         {
             case 'Captain':
-                return UNRESTRICTED
+                return Clearance.UNRESTRICTED
 
             case 'First Officer':
-                return LIMITED
+                return Clearance.LIMITED
 
             case 'LieutenantCommander':
-                return LIMITED
+                return Clearance.LIMITED
 
             case 'Intruder':
-                return UNAUTHORIZED
+                return Clearance.UNAUTHORIZED
         }
 
         null
